@@ -2,9 +2,21 @@ import Image from 'next/image'
 import Footer from '@/components/Footer'
 import HeroBanner from '@/components/HeroBanner'
 import Wrapper from '@/components/Wrapper'
-import ProductCard from '@/components/ProductCard'
+import ProductCardGlobal from './pages/ProductCardGlobal'
+import { useEffect, useState } from 'react'
+
 
 export default function Home() {
+  // const [data,setData] = useState(null);
+
+  // useEffect(()=> {
+  //   fetchProducts();
+  // },[]);
+
+  // const fetchProducts = async () => {
+  //   const {data} =  await fetchDataFromApi('/api/products');
+  //   setData(data)
+  // }
   return (
     <>
       <main className="h-full">
@@ -25,11 +37,7 @@ export default function Home() {
 
           {/* products grid start */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0">
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+            <ProductCardGlobal />
           </div>
         </Wrapper>
       </main>
