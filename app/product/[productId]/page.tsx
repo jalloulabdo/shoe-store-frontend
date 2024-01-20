@@ -32,7 +32,7 @@ const ProductDetails = ({ params }) => {
 
   const dispatch = useDispatch();
   const p = product?.[0]?.data?.[0]?.attributes;
-
+  const sizesGridElement = document.getElementById("sizesGrid");
   useEffect(() => {
     if (chackProduct.current === false) {
       store.dispatch(fetchProduct(urlDeatil));
@@ -157,10 +157,12 @@ const ProductDetails = ({ params }) => {
                       onClick={() => {
                         if (!selectedSize) {
                           setShowError(true);
-                          document.getElementById("sizesGrid").scrollIntoView({
-                            block: "center",
-                            behavior: "smooth",
-                          });
+                          if (sizesGridElement !== null) {
+                            sizesGridElement.scrollIntoView({
+                              block: "center",
+                              behavior: "smooth",
+                            });
+                          }
                         } else {
                           dispatch(
                             addToCart({
