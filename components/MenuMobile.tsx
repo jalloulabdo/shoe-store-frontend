@@ -63,7 +63,10 @@ const MenuMobile = ({
               </li>
             ) : (
               <li className="py-4 px-5 border-b">
-                <Link href={item?.url} onClick={() => setMobileMenu(false)}>
+                <Link
+                  href={`${item?.url}`}
+                  onClick={() => setMobileMenu(false)}
+                >
                   {item.name}
                 </Link>
               </li>
