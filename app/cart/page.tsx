@@ -34,7 +34,7 @@ const Page = () => {
       const res = await makePaymentRequest("/api/orders", {
         products: cartItems,
       });
-      await stripe.redirectToCheckout({
+      await stripe!.redirectToCheckout({
         sessionId: res.stripeSession.id,
       });
     } catch (error) {
