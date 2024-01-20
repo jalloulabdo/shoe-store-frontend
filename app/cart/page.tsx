@@ -21,7 +21,10 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
 
   const subTotal = useMemo(() => {
-    return cartItems.reduce((total, val) => total + val.attributes.price, 0);
+    return cartItems.reduce(
+      (total: any, val: any) => total + val.attributes.price,
+      0
+    );
   }, [cartItems]);
 
   const handlePayment = async () => {
