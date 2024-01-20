@@ -1,135 +1,192 @@
-"use client"
+"use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Wrapper from "@/components/Wrapper";
 import { IoMdHeartEmpty } from "react-icons/io";
 import ReactMarkdown from "react-markdown";
 
-
 import ProductDetailsCarousel from "@/components/ProductDetailsCarousel";
 import RelatedProducts from "@/components/RelatedProducts";
+import { getDiscountedPricePercentage } from "@/utils/helper";
 
-const ProductDetails = () => {
+import { fetchProduct } from "@/app/GlobalRedux/products/productDetailSlice";
+import { fetchProducts } from "@/app/GlobalRedux/products/productSlice";
+import { RootState, store } from "@/app/GlobalRedux/store";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "@/app/GlobalRedux/cart/cartSlice";
 
-    const [selectedSize, setSelectedSize] = useState();
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-    return (
-        <div className="w-full md:py-20">
-            <Wrapper className=''>
-                <div className="flex flex-col lg:flex-row md:px-10 gap-[50px] lg:gap-[100px]">
-                    {/* left column start */}
-                    <div className="w-full md:w-auto flex-[1.5] max-w-[500px] lg:max-w-full mx-auto lg:mx-0">
-                    <ProductDetailsCarousel   />
-                    </div>
-                    {/* left column end */}
+const ProductDetails = ({ params }) => {
+  const [selectedSize, setSelectedSize] = useState();
+  const chackProduct = useRef(false);
+  const [showError, setShowError] = useState(false);
 
-                    {/* right column start */}
-                    <div className="flex-[1] py-3">
-                        {/* PRODUCT TITLE */}
-                        <div className="text-[34px] font-semibold mb-2 leading-tight">
-                            test
-                        </div>
+  const { product } = useSelector((state: RootState) => state.product);
+  const { products } = useSelector((state: RootState) => state.products);
 
-                        {/* PRODUCT SUBTITLE */}
-                        <div className="text-lg font-semibold mb-5">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, at. Blanditiis totam tempora quam nihil, amet saepe porro incidunt animi qui doloribus, necessitatibus ad accusamus repellendus voluptatum tempore odio repudiandae.
-                        </div>
+  const path = params.productId;
+  const urlDeatil = `/api/products?populate=*&filters[slug][$eq]=${path}`;
+  const url = `/api/products?populate=*&[filters][slug][$ne]=${path}`;
 
-                        {/* PRODUCT PRICE */}
-                        <div className="flex items-center">
-                            <p className="mr-2 text-lg font-semibold">
-                                MRP : &#8377;150
-                            </p>
+  const dispatch = useDispatch();
+  const p = product?.[0]?.data?.[0]?.attributes;
 
-                            <>
-                                <p className="text-base  font-medium line-through">
-                                    &#8377;250
-                                </p>
-                                <p className="ml-auto text-base font-medium text-green-500">
-                                    70
-                                    % off
-                                </p>
-                            </>
+  useEffect(() => {
+    if (chackProduct.current === false) {
+      store.dispatch(fetchProduct(urlDeatil));
+      store.dispatch(fetchProducts(url));
+    }
 
-                        </div>
+    return () => {
+      chackProduct.current = true;
+    };
+  }, [url]);
 
-                        <div className="text-md font-medium text-black/[0.5]">
-                            incl. of taxes
-                        </div>
-                        <div className="text-md font-medium text-black/[0.5] mb-20">
-                            {`(Also includes all applicable duties)`}
-                        </div>
-
-                        {/* PRODUCT SIZE RANGE START */}
-                        <div className="mb-10">
-                            {/* HEADING START */}
-                            <div className="flex justify-between mb-2">
-                                <div className="text-md font-semibold">
-                                    Select Size
-                                </div>
-                                <div className="text-md font-medium text-black/[0.5] cursor-pointer">
-                                    Select Guide
-                                </div>
-                            </div>
-                            {/* HEADING END */}
-
-                            {/* SIZE START */}
-                            <div
-                                id="sizesGrid"
-                                className="grid grid-cols-3 gap-2"
-                            >
-
-                                <div
-                                    className={`border rounded-md text-center py-3 font-medium `}
-                                 
-                                >
-                                    25
-                                </div>
-
-                            </div>
-                            {/* SIZE END */}
-
-                            {/* SHOW ERROR START */}
-                                <div className="text-red-600 mt-1">
-                                    Size selection is required
-                                </div>
-                           
-                            {/* SHOW ERROR END */}
-                        </div>
-                        {/* PRODUCT SIZE RANGE END */}
-
-                        {/* ADD TO CART BUTTON START */}
-                        <button
-                            className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75"
-                         
-                        >
-                            Add to Cart
-                        </button>
-                        {/* ADD TO CART BUTTON END */}
-
-                        {/* WHISHLIST BUTTON START */}
-                        <button className="w-full py-4 rounded-full border border-black text-lg font-medium transition-transform active:scale-95 flex items-center justify-center gap-2 hover:opacity-75 mb-10">
-                            Whishlist
-                            <IoMdHeartEmpty size={20} />
-                        </button>
-                        {/* WHISHLIST BUTTON END */}
-
-                        <div>
-                            <div className="text-lg font-bold mb-5">
-                                Product Details
-                            </div>
-                            <div className="markdown text-md mb-5">
-                            <ReactMarkdown>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab et nesciunt fugit tenetur sint consequatur eos, aut quos modi ea dignissimos numquam omnis pariatur delectus obcaecati ullam? Rerum, iusto reprehenderit?</ReactMarkdown>
-                            </div>
-                        </div>
-                    </div>
-                    {/* right column end */}
-                </div>
-
-                <RelatedProducts  />
-            </Wrapper>
+  const notify = () => {
+    toast.success("Success. Check your cart!", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
+  return (
+    <>
+      <section className="site-banner padding-small bg-light-grey">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="breadcrumbs">
+                <span className="item">
+                  <a href="index.html"></a>
+                </span>
+                <span className="item">
+                  <a href="shop.html">Shop /</a>
+                </span>
+                <span className="item">{p?.name}</span>
+              </div>
+            </div>
+          </div>
         </div>
-    )
-}
+      </section>
+      <section className="single-product padding-large">
+        <ToastContainer />
+        <div className="container">
+          <div className="row">
+            <div className="col-md-5">
+              <div className="w-full md:w-auto flex-[1.5] max-w-[300px] lg:max-w-full mx-auto lg:mx-0">
+                <ProductDetailsCarousel images={p?.image.data} />
+              </div>
+            </div>
+            <div className="col-md-7">
+              <div className="product-info">
+                <div className="element-header">
+                  <h2 itemProp="name" className="product-title">
+                    {p?.name}
+                  </h2>
+                  <div className="rating-container d-flex align-items-center">
+                    <span className="rating-count">{p?.subtitle}</span>
+                  </div>
+                </div>
+                <div className="product-price">
+                  <strong>${p?.price}</strong>
+                  {p?.original_price && (
+                    <>
+                      <del>${p?.original_price}</del>
+                      <p className="pourcentage">
+                        {getDiscountedPricePercentage(
+                          p.original_price,
+                          p.price
+                        )}
+                        % off
+                      </p>
+                    </>
+                  )}
+                </div>
+                <div className="rating-container d-flex align-items-center">
+                  <span className="rating-count">incl. of taxes</span>
+                </div>
+                <div className="rating-container d-flex align-items-center">
+                  <span className="rating-count">{`(Also includes all applicable duties)`}</span>
+                </div>
+                <p>
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Nulla praesentium velit illo eveniet deserunt fuga a soluta
+                  tenetur, minus earum quasi pariatur quos accusamus corrupti,
+                  laborum esse non sint harum.
+                </p>
+                <div className="cart-wrap margin-small">
+                  <div className="swatch product-select" data-option-index={1}>
+                    <h4 className="item-title no-margin">Select Size:</h4>
+                    <div id="sizesGrid" className="sizesGrid">
+                      {p?.size.data.map((item, i) => (
+                        <div
+                          key={i}
+                          className={`size-border ${
+                            item.enabled
+                              ? "hover:border-black cursor-pointer"
+                              : "not-allowed"
+                          } ${
+                            selectedSize === item.size ? "border-black" : ""
+                          }`}
+                          onClick={() => {
+                            setSelectedSize(item.size);
+                            setShowError(false);
+                          }}
+                        >
+                          {item.size}
+                        </div>
+                      ))}
+                    </div>
+                    {/* SHOW ERROR START */}
+                    {showError && (
+                      <div className="erro-msg">Size selection is required</div>
+                    )}
+                    {/* SHOW ERROR END */}
+                  </div>
 
-export default ProductDetails
+                  <div className="action-buttons">
+                    <button
+                      className="btn btn-medium btn-dark"
+                      onClick={() => {
+                        if (!selectedSize) {
+                          setShowError(true);
+                          document.getElementById("sizesGrid").scrollIntoView({
+                            block: "center",
+                            behavior: "smooth",
+                          });
+                        } else {
+                          dispatch(
+                            addToCart({
+                              ...product?.[0]?.data?.[0],
+                              selectedSize,
+                              oneQuantityPrice: p.price,
+                            })
+                          );
+                          notify();
+                        }
+                      }}
+                    >
+                      <span id="add-to-cart">Add to cart</span>
+                    </button>
+                    <button type="submit" className="btn btn-medium btn-dark">
+                      <i className="icon icon-heart" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+};
+
+export default ProductDetails;

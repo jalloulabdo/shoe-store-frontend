@@ -1,27 +1,28 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react'
-import Wrapper from './Wrapper';
+import React, { useState, useEffect } from "react";
+import Wrapper from "./Wrapper";
 
 import Link from "next/link";
 import Menu from "./Menu";
 import MenuMobile from "./MenuMobile";
+import { RootState, store } from "@/app/GlobalRedux/store";
 
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart } from "react-icons/bs";
 import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import { useSelector } from "react-redux";
-
+import fetchDataFromApi from "@/utils/api";
 
 const Header = () => {
-
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showCatMenu, setShowCatMenu] = useState(false);
   const [show, setShow] = useState("translate-y-0");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [categories, setCategories] = useState(null);
 
+  const { cartItems } = useSelector((state: RootState) => state.cart);
 
   const controlNavbar = () => {
     if (window.scrollY > 200) {
@@ -43,77 +44,93 @@ const Header = () => {
     };
   }, [lastScrollY]);
 
-   
-  
-   
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
+  const fetchCategories = async () => {
+    const response = await fetchDataFromApi("/api/categories?populate=*");
+    const data = await response.json();
+
+    setCategories(data);
+  };
   return (
-    <header className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-      />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet"
-      />
-      <Wrapper className="h-[60px] flex justify-between items-center">
-        <Link href="/">
-          <img src="/logo.svg" className="w-[40px] md:w-[60px]" />
-        </Link>
-        <Menu
-          showCatMenu={showCatMenu}
-          setShowCatMenu={setShowCatMenu}
-          categories={categories}
-        />
+    <header
+      id="header"
+      className={`w-full h-[50px] md:h-[80px] bg-white flex items-center justify-between z-20 sticky top-0 transition-transform duration-300 ${show}`}
+    >
+      <div id="header-wrap">
+        <nav className="secondary-nav border-bottom">
+          <div className="container">
+            <div className="row d-flex align-items-center">
+              <div className="col-md-4 header-contact">
+                <p>
+                  Let's talk! <strong>+212 641 687 853</strong>
+                </p>
+              </div>
+              <div className="col-md-4 shipping-purchase text-center">
+                <p>STUDENT DISCOUNT | GET 10% OFF YOUR ORDER</p>
+              </div>
+              <div className="col-md-4 col-sm-12 user-items">
+                <ul className="d-flex justify-content-end list-unstyled">
+                  <li>
+                    <a href="login.html">
+                      <i className="icon icon-user" />
+                    </a>
+                  </li>
+                  <li>
+                    <Link href="/cart">
+                      <i className="icon icon-shopping-cart" />
 
-        {mobileMenu && (
-          <MenuMobile
-            showCatMenu={showCatMenu}
-            setShowCatMenu={setShowCatMenu}
-            setMobileMenu={setMobileMenu}
-            categories={categories}
-          />
-        )}
+                      {cartItems.length > 0 && (
+                        <span className="countPill ">{cartItems.length}</span>
+                      )}
+                    </Link>
+                  </li>
 
-        <div className="flex items-center gap-2 text-black">
-          {/* Icon start */}
-          <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
-            <IoMdHeartEmpty className="text-[19px] md:text-[24px]" />
-            <div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex justify-center items-center px-[2px] md:px-[5px]">
-              51
-            </div>
-          </div>
-          {/* Icon end */}
-          {/* Icon start */}
-          <Link href="/cart">
-            <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
-              <BsCart className="text-[15px] md:text-[20px]" />
-              <div className="h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] flex justify-center items-center px-[2px] md:px-[5px]">42
+                  <li className="user-items search-item pe-3">
+                    <a href="#" className="search-button">
+                      <i className="icon icon-search" />
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-          </Link>
-          {/* Icon end */}
-          {/* Mobile icon start */}
-          <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex md:hidden justify-center items-center hover:bg-black/[0.05] cursor-pointer relative -mr-2">
-            {mobileMenu ? (
-              <VscChromeClose
-                className="text-[16px]"
-                onClick={() => setMobileMenu(false)}
-              />
-            ) : (
-              <BiMenuAltRight
-                className="text-[20px]"
-                onClick={() => setMobileMenu(true)}
-              />
-            )}
           </div>
-          {/* Mobile icon end */}
-        </div>
-      </Wrapper>
+        </nav>
+        <nav className="primary-nav padding-small">
+          <div className="container">
+            <div className="row d-flex align-items-center">
+              <div className="col-lg-2 col-md-2">
+                <div className="main-logo">
+                  <Link href="/">
+                    <img
+                      src="/images/main-logo.png"
+                      className="w-[40px] md:w-[60px]"
+                    />
+                  </Link>
+                </div>
+              </div>
+              <div className="col-lg-10 col-md-10">
+                <div className="navbar">
+                  <div
+                    id="main-nav"
+                    className="stellarnav d-flex justify-content-end right"
+                  >
+                    <Menu
+                      showCatMenu={showCatMenu}
+                      setShowCatMenu={setShowCatMenu}
+                      categories={categories}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
