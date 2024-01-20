@@ -21,7 +21,7 @@ const cartSlice = createSlice({
       }
     },
     updateCart: (state, action) => {
-      state.cartItems = state.cartItems.map((p) => {
+      state.cartItems = state.cartItems.map((p: any) => {
         if (p.id === action.payload.id) {
           if (action.payload.key === "quantity") {
             p.attributes.price = p.oneQuantityPrice * action.payload.val;
