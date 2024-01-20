@@ -55,7 +55,7 @@ const Menu = ({ showCatMenu, setShowCatMenu, categories }: any) => {
               </li>
             ) : (
               <li className="">
-                <Link href={item?.url}>{item.name}</Link>
+                <Link href={`${item?.url}`}>{item.name}</Link>
               </li>
             )}
           </React.Fragment>

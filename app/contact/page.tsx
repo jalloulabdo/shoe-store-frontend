@@ -95,26 +95,23 @@ export default function Contact() {
                       name="name"
                       placeholder="Name"
                       className="u-full-width bg-light"
-                      required=""
                     />
                     <input
                       type="email"
                       name="email"
                       placeholder="E-mail"
                       className="u-full-width bg-light"
-                      required=""
                     />
                     <textarea
                       className="u-full-width bg-light"
                       name="message"
                       placeholder="Message"
                       style={{ height: 180 }}
-                      required=""
                       defaultValue={""}
                     />
                   </div>
                   <label>
-                    <input type="checkbox" required="" />
+                    <input type="checkbox" />
                     <span className="label-body">
                       I agree all the <a href="#">terms and conditions</a>
                     </span>

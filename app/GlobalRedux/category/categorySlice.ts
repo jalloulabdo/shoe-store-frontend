@@ -4,12 +4,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import fetchDataFromApi from "@/utils/api";
 import { stat } from "fs/promises";
 
-export const fetchCategory = createAsyncThunk("data/fetchData", async (url) => {
-  const response = await fetchDataFromApi(url);
-  const data = await response.json();
+export const fetchCategory = createAsyncThunk(
+  "data/fetchData",
+  async (url: any) => {
+    const response = await fetchDataFromApi(url);
+    const data = await response.json();
 
-  return data;
-});
+    return data;
+  }
+);
 
 const initialState = {
   categories: [],

@@ -6,7 +6,7 @@ import { stat } from "fs/promises";
 
 export const fetchProduct = createAsyncThunk(
   "data/fetchDataProductDetail",
-  async (url) => {
+  async (url: any) => {
     const response = await fetchDataFromApi(url);
     const data = await response.json();
 
