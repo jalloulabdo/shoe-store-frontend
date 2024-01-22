@@ -41,8 +41,7 @@ const HeroBanner = () => {
                 <div className="col-md-6">
                   <h2 className="banner-title">Summer Collection</h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    eu feugiat amet, libero ipsum enim pharetra hac.
+                    At Ultras, we're not just selling shoes; we're offering a gateway to peak performance. Step into a world where passion meets precision, where your journey to greatness starts with the perfect pair of shoes.
                   </p>
                   <div className="btn-wrap space-btn-wrap">
                     <a
@@ -73,8 +72,7 @@ const HeroBanner = () => {
                 <div className="col-md-6">
                   <h2 className="banner-title">Last Sizes, Crazy Prices </h2>
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    eu feugiat amet, libero ipsum enim pharetra hac.
+                    Discover the power of precision engineering and cutting-edge technology in every pair of Ultras. From the track to the court, our specialized sports shoes are crafted to enhance your performance, providing the support, comfort, and style you deserve.
                   </p>
                   <div className="btn-wrap space-btn-wrap">
                     <a
