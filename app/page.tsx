@@ -96,11 +96,7 @@ export default function Home() {
                       Get 25% off Discount Coupons
                     </h2>
                   </div>
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Dictumst amet, metus, sit massa posuere maecenas. At tellus
-                    ut nunc amet vel egestas.
-                  </p>
+                  <p></p>
                 </div>
                 <div className="subscribe-content col-md-6">
                   <form id="form" className="d-flex justify-content-between">

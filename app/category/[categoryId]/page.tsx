@@ -116,7 +116,7 @@ const CategoryDetail = ({ params }) => {
                     >
                       <div className="flex gap-3 items-center justify-center my-16 md:my-0">
                         <button
-                          className={`rounded py-2 px-4 bg-black text-white disabled:bg-gray-200 disabled:text-gray-500`}
+                          className={`previous`}
                           disabled={pageIndex === 1}
                           onClick={() => setPageIndex(pageIndex - 1)}
                         >
@@ -129,7 +129,7 @@ const CategoryDetail = ({ params }) => {
                         }`}</span>
 
                         <button
-                          className={`rounded py-2 px-4 bg-black text-white disabled:bg-gray-200 disabled:text-gray-500`}
+                          className={`next`}
                           disabled={
                             pageIndex ===
                             (products?.[0] &&

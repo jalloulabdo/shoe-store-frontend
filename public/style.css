@@ -2093,8 +2093,9 @@ blockquote cite {
   color: white;
 }
 .banner-content p {
-  color: greenyellow;
+  color: white;
   font-weight: 900;
+  font-size: 20px;
 }
 .banner-content p {
   margin: 35px 0 60px;
@@ -3155,7 +3156,7 @@ span.countPill {
 }
 .cart-product-title {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
 }
 .cart-product-name {
@@ -3299,6 +3300,19 @@ span.countPill {
   box-sizing: border-box;
   letter-spacing: 1px;
   border: none;
+}
+
+button.previous {
+  right: 17px;
+  width: 17%;
+  border-radius: 8px;
+  font-size: 12px;
+}
+button.next {
+  left: 17px;
+  width: 17%;
+  border-radius: 8px;
+  font-size: 12px;
 }
 @media (min-width: 1024px) {
   .cart-item {

@@ -23,8 +23,7 @@ const ProductDetails = ({ params }) => {
   const chackProduct = useRef(false);
   const [showError, setShowError] = useState(false);
 
-  const { product } = useSelector((state: RootState) => state.product);
-  const { products } = useSelector((state: RootState) => state.products);
+  const { product, loading } = useSelector((state: RootState) => state.product);
 
   const path = params.productId;
   const urlDeatil = `/api/products?populate=*&filters[slug][$eq]=${path}`;
@@ -77,6 +76,7 @@ const ProductDetails = ({ params }) => {
       </section>
       <section className="single-product padding-large">
         <ToastContainer />
+
         <div className="container">
           <div className="row">
             <div className="col-md-5">
@@ -85,6 +85,12 @@ const ProductDetails = ({ params }) => {
               </div>
             </div>
             <div className="col-md-7">
+              {loading && (
+                <div className="loading ">
+                  <img src="/logo.svg" width={150} />
+                  <span className="text-2xl font-medium">Loading...</span>
+                </div>
+              )}
               <div className="product-info">
                 <div className="element-header">
                   <h2 itemProp="name" className="product-title">

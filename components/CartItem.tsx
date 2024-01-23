@@ -32,18 +32,22 @@ const CartItem = ({ data }) => {
 
       <div className="cart-product">
         <div className="cart-product-title">
-          {/* PRODUCT TITLE */}
-          <div className="cart-product-name">{product.name}</div>
+          <div className="cart-product-title-sub">
+            {/* PRODUCT TITLE */}
+            <div className="cart-product-name">{product.name}</div>
 
-          {/* PRODUCT SUBTITLE */}
-          <div className="cart-product-subtitle">{product.subtitle}</div>
+            {/* PRODUCT SUBTITLE */}
+            <div className="cart-product-subtitle">{product.subtitle}</div>
+          </div>
 
-          {/* PRODUCT PRICE */}
-          <div className="cart-product-price"> ${product.price}</div>
+          <div className="cart-product-title-price">
+            {/* PRODUCT PRICE */}
+            <div className="cart-product-price"> ${product.price}</div>
+          </div>
         </div>
 
         {/* PRODUCT SUBTITLE */}
-        <div className="cart-product-subtitle">{product.subtitle}</div>
+        {/* <div className="cart-product-subtitle">{product.subtitle}</div> */}
 
         <div className="block-size">
           <div className="size-item">

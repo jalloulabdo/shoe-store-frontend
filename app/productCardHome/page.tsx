@@ -54,25 +54,26 @@ const ProductCardHome = () => {
             <h2 className="section-title">Best selling products</h2>
           </div>
           <ul className="tabs list-unstyled ">
-            <li
-              className={`tab  ${slug == "" ? "active" : ""}`}
-              onClick={() => ChangeMenu("")}
-            >
-              All
-            </li>
-            {categories &&
-              categories?.[0]?.data.map((item) => (
-                <li
-                  data-tab-target={`#${item.attributes?.slug}`}
-                  key={item.id}
-                  className={`tab  ${
-                    item.attributes?.slug == slug ? "active" : ""
-                  }`}
-                  onClick={() => ChangeMenu(item.attributes?.slug)}
-                >
-                  {item.attributes?.name}
-                </li>
-              ))}
+            {categories?.[0]?.data !== null && (
+              <li
+                className={`tab  ${slug == "" ? "active" : ""}`}
+                onClick={() => ChangeMenu("")}
+              >
+                All
+              </li>
+            )}
+            {categories?.[0]?.data.map((item) => (
+              <li
+                data-tab-target={`#${item.attributes?.slug}`}
+                key={item.id}
+                className={`tab  ${
+                  item.attributes?.slug == slug ? "active" : ""
+                }`}
+                onClick={() => ChangeMenu(item.attributes?.slug)}
+              >
+                {item.attributes?.name}
+              </li>
+            ))}
           </ul>
           <div className="tab-content">
             {loading && (
