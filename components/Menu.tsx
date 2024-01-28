@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { BsChevronDown } from "react-icons/bs";
-
+import { motion, Variants, AnimatePresence } from "framer-motion";
 const data = [
   { id: 1, name: "Home", url: "/" },
   { id: 2, name: "About", url: "/about" },
@@ -38,7 +37,7 @@ const Menu = ({ showCatMenu, setShowCatMenu, categories }: any) => {
                     categories?.data?.map(({ attributes: c, id }: any) => {
                       return (
                         <li key={id} className=" u-full-width">
-                          <a
+                          <motion.a
                             href={`/category/${c.slug}`}
                             className="item-anchor d-flex"
                             style={{ justifyContent: "space-between" }}
@@ -47,7 +46,7 @@ const Menu = ({ showCatMenu, setShowCatMenu, categories }: any) => {
                             <span className="text-primary ">
                               {`(${c.products.data.length})`}
                             </span>
-                          </a>
+                          </motion.a>
                         </li>
                       );
                     })}

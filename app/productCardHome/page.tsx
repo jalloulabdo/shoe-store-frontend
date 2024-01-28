@@ -7,6 +7,63 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "../GlobalRedux/products/productSlice";
 import { fetchCategory } from "@/app/GlobalRedux/category/categorySlice";
 import { AppDispatch, RootState } from "../GlobalRedux/store";
+
+import { motion, Variants } from "framer-motion";
+
+const container = {
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const title = {
+  hidden: { opacity: 0, x: -200 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      easing: "cubic-bezier(0.6, 0.01, 0.88, 0.99)",
+      duration: 1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: 200,
+    transition: {
+      ease: "easeInOut",
+      duration: 0.8,
+    },
+  },
+};
+const text = {
+  hidden: { opacity: 0, x: -200 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      easing: "cubic-bezier(0.6, 0.01, 0.88, 0.99)",
+      duration: 1.8,
+    },
+  },
+  exit: {
+    opacity: 0,
+    x: -200,
+    transition: {
+      ease: "easeInOut",
+      duration: 2,
+    },
+  },
+};
+
+const card = {
+  show: {
+    scale: [1, 2, 2, 1, 1],
+    rotate: [0, 0, 180, 180, 0],
+    borderRadius: ["0%", "0%", "50%", "50%", "0%"],
+  },
+};
 const maxResult = 3;
 
 const ProductCardHome = () => {
@@ -49,22 +106,32 @@ const ProductCardHome = () => {
         id="selling-products"
         className="product-store bg-light-grey padding-large"
       >
-        <div className="container">
+        <motion.div
+          className="container"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          exit="exit"
+        >
           <div className="section-header">
-            <h2 className="section-title">Best selling products</h2>
+            <motion.h2 className="section-title" variants={title}>
+              Best selling products
+            </motion.h2>
           </div>
           <ul className="tabs list-unstyled ">
             {categories?.[0]?.data !== null && (
-              <li
+              <motion.li
                 className={`tab  ${slug == "" ? "active" : ""}`}
+                variants={text}
                 onClick={() => ChangeMenu("")}
               >
                 All
-              </li>
+              </motion.li>
             )}
             {categories?.[0]?.data.map((item) => (
-              <li
+              <motion.li
                 data-tab-target={`#${item.attributes?.slug}`}
+                variants={text}
                 key={item.id}
                 className={`tab  ${
                   item.attributes?.slug == slug ? "active" : ""
@@ -72,7 +139,7 @@ const ProductCardHome = () => {
                 onClick={() => ChangeMenu(item.attributes?.slug)}
               >
                 {item.attributes?.name}
-              </li>
+              </motion.li>
             ))}
           </ul>
           <div className="tab-content">
@@ -91,7 +158,7 @@ const ProductCardHome = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
     </>
   );

@@ -3314,6 +3314,22 @@ button.next {
   border-radius: 8px;
   font-size: 12px;
 }
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: #a6a6ab;
+  transform-origin: 0%;
+  z-index: 10;
+}
+
+.first-title {
+  color: white;
+}
+
 @media (min-width: 1024px) {
   .cart-item {
     flex-direction: row;

@@ -2,10 +2,44 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { getDiscountedPricePercentage } from "@/utils/helper";
+import { motion } from "framer-motion";
 
+const container = {
+  show: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 200 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      easing: "cubic-bezier(0.6, 0.01, 0.88, 0.99)",
+      duration: 1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 200,
+    transition: {
+      ease: "easeInOut",
+      duration: 0.8,
+    },
+  },
+};
 const ProductCard = ({ data: { attributes: p, id } }: any) => {
   return (
-    <div className="product-item col-lg-3 col-md-6 col-sm-6">
+    <motion.div
+      className="product-item col-lg-3 col-md-6 col-sm-6"
+      variants={item}
+      initial="hidden"
+      whileInView="show"
+      exit="exit"
+    >
       <div className="image-holder">
         <Image
           width={500}
@@ -48,7 +82,7 @@ const ProductCard = ({ data: { attributes: p, id } }: any) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
